@@ -10,7 +10,7 @@ img.addEventListener('load', () => {
   ctx.fillStyle = 'black';
   let dimensions = getDimmensions(canvas.offsetWidth, canvas.offsetHeight, img.offsetWidth, img.offsetHeight);
   ctx.fill(dimensions.startX, dimensions.startY, dimensions.width, dimensions.height);
-
+  ctx.drawImage(img, dimensions.startX, dimensions.startY);
   // Some helpful tips:
   // - Fill the whole Canvas with black first to add borders on non-square images, then draw on top
   // - Clear the form when a new image is selected
