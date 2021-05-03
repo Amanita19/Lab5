@@ -5,6 +5,11 @@ const img = new Image(); // used to load image from <input> and draw to canvas
 // Fires whenever the img object loads a new image (such as with img.src =)
 img.addEventListener('load', () => {
   // TODO
+  const canvas = document.getElementById('user-image');
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'black';
+  let dimensions = getDimmensions(canvas.offsetWidth, canvas.offsetHeight, img.offsetWidth, img.offsetHeight);
+  ctx.fill(dimensions.startX, dimensions.startY, dimensions.width, dimensions.height);
 
   // Some helpful tips:
   // - Fill the whole Canvas with black first to add borders on non-square images, then draw on top
