@@ -1,15 +1,29 @@
 // script.js
 
 const img = new Image();
+
 const canvas = document.getElementById('user-image');
 const ctx = canvas.getContext('2d');
 const imageInput = document.querySelector("[id='image-input']");
+
 var dimensions;
+
 const form = document.querySelector("[id='generate-meme']");
 const submit = document.querySelector("[type='submit']");
 const reset = document.querySelector("[type='reset']");
+const readText = document.querySelector("[type='button']"); 
+
 const topText = document.querySelector("[name='textTop']");
 const bottomText = document.querySelector("[name='textBottom']");
+
+const voiceSelect = document.querySelector("[id='voice-selection']"); 
+
+var synth = window.speechSynthesis;
+var voices = synth.getVoices();
+var toSpeak = new SpeechSynthesisUtterance();
+
+const slider = document.querySelector("[type='range']");
+const icon = document.querySelector("div img");
 
 img.addEventListener('load', () => {
 
@@ -55,6 +69,47 @@ reset.addEventListener('click', () => {
     reset.disabled = true;
     readText.disabled = true;
 });
+
+readText.addEventListener('click', () => {
+
+  toSpeak.text = (topText.value + " " + bottomText.value);
+
+  speechSynthesis.speak(toSpeak);
+});
+
+slider.addEventListener('input', () => {
+
+  toSpeak.volume = slider.value/100;
+
+  if( slider.value == 0) {
+
+    icon.src = "icons/volume-level-0.svg"
+    icon.alt = "Volume Level 0"
+  }
+  else if( slider.value < 34) {
+    icon.src = "icons/volume-level-1.svg"
+    icon.alt = "Volume Level 1"
+  }
+  else if( slider.value < 67 ) {
+    icon.src = "icons/volume-level-2.svg"
+    icon.alt = "Volume Level 2"
+  }
+  else {
+    icon.src = "icons/volume-level-3.svg"
+    icon.alt = "Volume Level 3"
+  }
+});
+
+voiceSelect.addEventListener('change', () => {
+
+  for( let i = 0; i < voices.length ; i++) {
+    let selected = voiceSelect.options[voiceSelect.selectedIndex].dataset.name;
+    if(voices[i].name == selected) {
+      toSpeak.voice = voices[i];
+    }
+  }
+});
+
 
 /**
  * Takes in the dimensions of the canvas and the new image, then calculates the new
